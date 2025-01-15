@@ -19,3 +19,11 @@ model User {
   name       String
   password   String
 }
+
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  image       String
+  price       Float
+}
