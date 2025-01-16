@@ -1,67 +1,125 @@
 'use client'
-import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function Home() {
-  const [name, setName] = useState<string>("");
-  const [image, setImage] = useState<string>("");
-  const [price, setPrice] = useState<number>();
+const ChatPage = () => {
+    const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+    const [input, setInput] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const handleSendMessage = async () => {
+        if (!input.trim()) return;
 
-    try {
-      const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name,
-          image: image,
-          price: price,
-        }),
-      });
+        const userMessage = { role: "user", content: input };
+        setMessages((prev) => [...prev, userMessage]);
+        setInput("");
+        setLoading(true);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+        try {
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: input }),
+            });
 
-      const data = await response.json();
-      console.log(data);
+            const data = await response.json();
 
-      setName('');
-      setImage('');
-      setPrice(0);
+            if (response.ok) {
+                const assistantMessage = { role: "assistant", content: data.result };
+                setMessages((prev) => [...prev, assistantMessage]);
+            } else {
+                setMessages((prev) => [
+                    ...prev,
+                    { role: "assistant", content: "Error: Unable to process your request." },
+                ]);
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+            setMessages((prev) => [
+                ...prev,
+                { role: "assistant", content: "Error: Something went wrong." },
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    return (
+        <div style={styles.container}>
+            <div style={styles.chatBox}>
+                {messages.map((msg, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            ...styles.message,
+                            alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
+                            backgroundColor: msg.role === "user" ? "#cef" : "#eee",
+                        }}
+                    >
+                        {msg.content}
+                    </div>
+                ))}
+                {loading && (
+                    <div style={styles.messageLoading}>Assistant is typing...</div>
+                )}
+            </div>
+            <div style={styles.inputContainer}>
+                <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type your message..."
+                    style={styles.input}
+                    className="text-black"
+                />
+                <button onClick={handleSendMessage} style={styles.button}>
+                    Send
+                </button>
+            </div>
+        </div>
+    );
+};
 
-    } catch(error) {
-      console.error('Error creating product:', error);
-      alert('Error creando producto');
-      setName('');
-      setImage('');
-      setPrice(0);
+const styles = {
+    container: {
+        display: "flex",
+        flexDirection: "column" as const,
+        height: "100vh",
+        width: "100%",
+        justifyContent: "space-between",
+        padding: "10px",
+    },
+    chatBox: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column" as const,
+        overflowY: "auto" as const,
+        padding: "10px",
+        border: "1px solid #ddd",
+    },
+    message: {
+        maxWidth: "60%",
+        margin: "5px 0",
+        padding: "10px",
+        borderRadius: "8px",
+    },
+    messageLoading: {
+        fontStyle: "italic",
+        color: "#888",
+    },
+    inputContainer: {
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+    },
+    input: {
+        flex: 1,
+        padding: "10px",
+        fontSize: "16px",
+    },
+    button: {
+        padding: "10px 20px",
+        fontSize: "16px",
+    },
+};
 
-    }
-
-    
-  }
-
-  return (
-    <div>
-        <Link href="/">Home</Link>
-        <Link href="/products">lista de productos</Link>
-      <nav>
-      </nav>
-      <form onSubmit={handleSubmit}>
-        <h1>Crear productos</h1>
-        <input type="text" placeholder="Nombre del producto" onChange={(e) => setName(e.target.value)} />
-        <input type="number" placeholder="Precio del producto" onChange={(e) => setPrice(Number(e.target.value))} />
-        <input type="text" placeholder="Url del producto" onChange={(e) => setImage(e.target.value)}/>
-        <button type="submit">Crear</button>
-        
-      </form>
-    </div>
-    
-  );
-}
+export default ChatPage;
