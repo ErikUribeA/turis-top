@@ -22,9 +22,9 @@ export async function POST(req: NextRequest) {
         }
 
         const completion = await openai.chat.completions.create({
-            model: "gpt-4",
+            model: "gpt-4", 
             messages: [
-                { role: "system", content: "You are a helpful assistant." },
+                { role: "system", content: "You are an assistant of tourism of colombia, that only will response questions associate to tourism" },
                 { role: "user", content },
             ],
         });
