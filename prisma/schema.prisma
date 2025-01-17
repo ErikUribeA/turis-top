@@ -18,12 +18,14 @@ model User {
   email      String   @unique
   name       String
   password   String
+  Ask Ask[]
 }
 
-
-model Product {
-  id          Int       @id @default(autoincrement())
-  name        String
-  image       String
-  price       Float
+model Ask {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user       User     @relation(fields: [userId], references: [id])
+  question       String
+  answer    String
+  createdAt  DateTime @default(now())
 }
