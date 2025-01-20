@@ -1,62 +1,93 @@
+// app/api/chats/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // Asegúrate de configurar esta variable de entorno
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-interface RequestBody {
-    content: string;
-}
-
 export async function POST(req: NextRequest) {
-    try {
-        const body: RequestBody = await req.json();
-        const { content } = body;
+  try {
+    // 1. Verificar que el usuario esté autenticado
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
 
-        if (!content) {
-            return NextResponse.json(
-                { error: "El campo 'content' es obligatorio." },
-                { status: 400 }
-            );
-        }
+    // 2. Obtener el mensaje del usuario
+    const { content } = await req.json();
+    if (!content) {
+      return NextResponse.json(
+        { error: "El mensaje es requerido" },
+        { status: 400 }
+      );
+    }
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4", 
-            messages: [
-                { role: "system", content: "You are an assistant of tourism of colombia, that only will response questions associate to tourism" },
-                { role: "user", content },
-            ],
-        });
+    // 3. Obtener respuesta de OpenAI
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: "You are an assistant of tourism of colombia, that only will response questions associate to tourism"
+        },
+        { role: "user", content }
+      ],
+    });
 
-        const result = completion.choices[0].message?.content;
+    const aiResponse = completion.choices[0].message?.content || "";
+
+    // 4. Guardar la conversación en la base de datos
+    const savedChat = await prisma.ask.create({
+      data: {
+        userId: session.user.id,
+        question: content,
+        answer: aiResponse,
+      },
+    });
 
     return NextResponse.json({
-      message: "Values added successfully",
-      result,
+      result: aiResponse,
+      chatId: savedChat.id
     });
-  } catch (error: any) {
-    console.error("Error:", error);
 
-    if (error.status === 429) {
-      // manejo del Límite de uso de la API
-      return NextResponse.json(
-        { error: "Se ha alcanzado el límite de uso de la API. Intente más tarde." },
-        { status: 429 }
-        //el cliente ha enviado demasiadas solicitudes en un período corto de tiempo, lo que corresponde a errores relacionados con límites de uso, basicamente,el problema está relacionado con las cuotas o el límite de uso.
-      );
-    }
-
-    if (error.name === "TimeoutError") {
-      // manejo del tiempo de espera
-      return NextResponse.json(
-        { error: "La solicitud tardó demasiado tiempo. Por favor, inténtelo nuevamente." },
-        { status: 504 }
-      );
-    }
-
+  } catch (error) {
+    console.error("Error en el chat:", error);
     return NextResponse.json(
-      { error: "Ocurrió un error al procesar la solicitud. Inténtelo más tarde." },
+      { error: "Error al procesar la solicitud" },
+      { status: 500 }
+    );
+  }
+}
+
+// Endpoint opcional para obtener el historial de chat
+export async function GET(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    const chatHistory = await prisma.ask.findMany({
+      where: {
+        userId: session.user.id
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    return NextResponse.json({ history: chatHistory });
+  } catch (error) {
+    console.error("Error al obtener historial:", error);
+    return NextResponse.json(
+      { error: "Error al obtener el historial" },
       { status: 500 }
     );
   }

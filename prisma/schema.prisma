@@ -14,18 +14,23 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid()) // Cambiamos a String y usamos cuid()
   email      String   @unique
   name       String
-  password   String
-  Ask Ask[]
+  password   String?
+  asks       Ask[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Ask {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  user       User     @relation(fields: [userId], references: [id])
-  question       String
-  answer    String
-  createdAt  DateTime @default(now())
+  id          String   @id @default(cuid()) // Cambiamos a String
+  userId      String   // Cambiamos a String para mantener consistencia
+  user        User     @relation(fields: [userId], references: [id])
+  question    String   @db.Text
+  answer      String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
 }
