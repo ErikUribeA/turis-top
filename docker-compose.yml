@@ -14,6 +14,9 @@ services:
     environment:
       # Define the database connection string for the app
       DATABASE_URL: postgres://postgres:postgres@db:5432/DataTurisTop?schema=public
+      OPENAI_API_KEY: "${OPENAI_API_KEY}" 
+    volumes:
+      - .:/app             # Mount the current directory into /app inside the container for live code updates
     # Ensure the app container starts only after the db container is ready
     depends_on:
       - db
@@ -25,6 +28,8 @@ services:
     # Always restart the container if it stops (useful in development)
     restart: always
     # Set environment variables for the PostgreSQL database
+    ports:
+      - "5432:5432"        # Map host port 5432 to container port 5432 for Postgres
     environment:
       # Database username
       POSTGRES_USER: postgres
@@ -32,9 +37,6 @@ services:
       POSTGRES_PASSWORD: postgres
       # Database name
       POSTGRES_DB: DataTurisTop
-    # Map port 5432 on the host to port 5432 in the container
-    ports:
-      - '5432:5432'
     # Use a named volume to persist PostgreSQL data
     volumes:
       - postgres_data:/var/lib/postgresql/data
