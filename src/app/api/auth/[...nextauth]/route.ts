@@ -10,10 +10,13 @@ const handler = NextAuth({
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-      // Después del login, redirige siempre a '/chats'
-      return baseUrl + '/assistant';
+      if (url === "/") {
+        return baseUrl; // Redirige al home después del logout
+      }
+      return baseUrl + "/assistant"; // Redirige al chat después del login
     },
   },
 });
 
 export { handler as GET, handler as POST };
+
