@@ -13,13 +13,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Generate Prisma Client after schema is present
+RUN npx prisma generate
+
 # Expose the port Next.js runs on
 EXPOSE 3000
-# Set the environment to production
-ENV NODE_ENV=production
 
-# Build the Next.js app
-RUN npm run build
-
-# Start the Next.js app
-CMD ["npm", "start"]
+# Define command to start the application in development mode
+CMD ["npm", "run", "dev"]
