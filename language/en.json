@@ -1,0 +1,8 @@
+{
+    "grettings": "Welcome to My App",
+    "language":{
+        "select": "Select language",
+        "OptionEs": "Spanish",
+        "OptionEn": "English"
+    }
+}
