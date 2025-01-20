@@ -6,6 +6,7 @@ const ChatPage = () => {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSendMessage = async () => {
         if (!input.trim()) return;
@@ -14,6 +15,8 @@ const ChatPage = () => {
         setMessages((prev) => [...prev, userMessage]);
         setInput("");
         setLoading(true);
+        setError("");
+
 
         try {
             const response = await fetch("/api/chats", {
@@ -32,6 +35,8 @@ const ChatPage = () => {
                     ...prev,
                     { role: "assistant", content: "Error: Unable to process your request." },
                 ]);
+            setError(data.error || "Error: No se pudo procesar tu solicitud.");
+
             }
         } catch (error) {
             console.error("Error sending message:", error);
@@ -39,6 +44,8 @@ const ChatPage = () => {
                 ...prev,
                 { role: "assistant", content: "Error: Something went wrong." },
             ]);
+         setError("Error: Ocurrió un problema al enviar la solicitud.");
+
         } finally {
             setLoading(false);
         }
