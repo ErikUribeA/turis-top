@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({
-    apiKey: process.env.OPEN_API_KEY, // Asegúrate de configurar esta variable de entorno
+    apiKey: process.env.OPENAI_API_KEY, // Asegúrate de configurar esta variable de entorno
 });
 
 interface RequestBody {
