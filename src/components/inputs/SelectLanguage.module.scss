@@ -1,0 +1,38 @@
+.select {
+    width: 200px;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4b5563;
+    background-color: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    appearance: none;
+    /* Removes the default browser styling */
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        border-color: #2563eb;
+    }
+
+    &:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 4px rgba(37, 99, 235, 0.5);
+    }
+
+    &::placeholder {
+        color: #9ca3af;
+    }
+}
+
+/* Add a custom dropdown arrow */
+.select::after {
+    content: "▼";
+    position: absolute;
+    right: 16px;
+    pointer-events: none;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
