@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
+import {useTranslations} from 'next-intl';
 import { useSession } from 'next-auth/react';
 
 const ChatPage = () => {
@@ -10,6 +11,7 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const chatBoxRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations('chat');
     const { data: session } = useSession();
 
     const MIN_LENGTH = 5; 
@@ -26,7 +28,7 @@ const ChatPage = () => {
         setLoading(true);
         const timeout = setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `¡Hola ${session?.user?.name || 'usuario'}! ¿En qué puedo ayudarte hoy?` },
+                { role: 'assistant', content: `¡${t("hello")} ${session?.user?.name || 'usuario'}! ${t("message")}` },
             ]);
             setLoading(false);
         }, 1000);
@@ -102,19 +104,19 @@ const ChatPage = () => {
                         {msg.content}
                     </div>
                 ))}
-                {loading && <div className={styles.messageLoading}>Asistente está escribiendo...</div>}
+                {loading && <div className={styles.messageLoading}>{t("assistant")}</div>}
             </div>
             <div className={styles.inputContainer}>
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Escribe tu mensaje..."
+                    onKeyDown={handleKeyDown} // Agregado el evento onKeyDown
+                    placeholder={t("placeholderChat")}
                     className={styles.input}
                 />
                 <button onClick={handleSendMessage} className={styles.button}>
-                    Enviar
+                {t("buttonSend")}
                 </button>
             </div>
             {error && <div className={styles.errorMessage}>{error}</div>}
