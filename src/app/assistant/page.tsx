@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
 import {useTranslations} from 'next-intl';
+import { useSession } from 'next-auth/react';
 
 const ChatPage = () => {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
@@ -11,6 +12,10 @@ const ChatPage = () => {
     const [error, setError] = useState('');
     const chatBoxRef = useRef<HTMLDivElement>(null);
     const t = useTranslations('chat');
+    const { data: session } = useSession();
+
+    const MIN_LENGTH = 5; 
+    const MAX_LENGTH = 200; 
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -18,14 +23,54 @@ const ChatPage = () => {
         }
     }, [messages]);
 
+    useEffect(() => {
+        // Simula un saludo inicial del asistente
+        setLoading(true);
+        const timeout = setTimeout(() => {
+            setMessages([
+                { role: 'assistant', content: `¡Hola ${session?.user?.name || 'usuario'}! ¿En qué puedo ayudarte hoy?` },
+            ]);
+            setLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [session?.user?.name]);
+
+    useEffect(() => {
+        // Simula un saludo inicial del asistente
+        setLoading(true);
+        const timeout = setTimeout(() => {
+            setMessages([
+                { role: 'assistant', content: `¡Hola ${session?.user?.name || 'usuario'}! ¿En qué puedo ayudarte hoy?` },
+            ]);
+            setLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [session?.user?.name]);
+
     const handleSendMessage = async () => {
-        if (!input.trim()) return;
+        if (!input.trim()) {
+            setError('El mensaje no puede estar vacío.');
+            return;
+        }
+
+        if (input.length < MIN_LENGTH) {
+            setError(`El mensaje debe tener al menos ${MIN_LENGTH} caracteres.`);
+            return;
+        }
+
+        if (input.length > MAX_LENGTH) {
+            setError(`El mensaje no puede superar los ${MAX_LENGTH} caracteres.`);
+            return;
+        }
+
+        setError(''); // Limpia el error si todo está bien
 
         const userMessage = { role: 'user', content: input };
         setMessages((prev) => [...prev, userMessage]);
         setInput('');
         setLoading(true);
-        setError('');
 
         try {
             const response = await fetch('/api/chats', {
@@ -58,7 +103,6 @@ const ChatPage = () => {
         }
     };
 
-    // Maneja el evento para enviar el mensaje cuando se presiona Enter
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSendMessage();
