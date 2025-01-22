@@ -1,125 +1,121 @@
-'use client'
-import { useState } from "react";
+'use client';
+import DestinationCard from '@/components/card/DestinationCard';
+import styles from './Home.module.scss';
+import Image from 'next/image';
 
-const ChatPage = () => {
-    const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
-    const [input, setInput] = useState("");
-    const [loading, setLoading] = useState(false);
+export default function Home() {
+  return (
+    <>
+      <div className={styles.home}>
+        <main className={styles.main}>
+          {/* Sección de héroe */}
+          <section className={styles.hero}>
+            <Image
+              src="/images/colombia_landscape.jpg"
+              alt="Beautiful landscape of Colombia"
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+            <div className={styles['hero-overlay']}>
+              <div className={styles['hero-content']}>
+                <h1>Discover Colombia</h1>
+                <p>Experience the magic of South America hidden gem</p>
+                <button className={styles['start-journey-button']}>Start Your Journey</button>
+              </div>
+            </div>
+          </section>
 
-    const handleSendMessage = async () => {
-        if (!input.trim()) return;
-
-        const userMessage = { role: "user", content: input };
-        setMessages((prev) => [...prev, userMessage]);
-        setInput("");
-        setLoading(true);
-
-        try {
-            const response = await fetch("/api/chats", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: input }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                const assistantMessage = { role: "assistant", content: data.result };
-                setMessages((prev) => [...prev, assistantMessage]);
-            } else {
-                setMessages((prev) => [
-                    ...prev,
-                    { role: "assistant", content: "Error: Unable to process your request." },
-                ]);
-            }
-        } catch (error) {
-            console.error("Error sending message:", error);
-            setMessages((prev) => [
-                ...prev,
-                { role: "assistant", content: "Error: Something went wrong." },
-            ]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div style={styles.container}>
-            <div style={styles.chatBox}>
-                {messages.map((msg, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            ...styles.message,
-                            alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-                            backgroundColor: msg.role === "user" ? "#cef" : "#eee",
-                        }}
-                    >
-                        {msg.content}
-                    </div>
+          {/* Sección de destinos */}
+          <section id="destinations" className={styles.destinations}>
+            <div className={styles.container}>
+              <h2>Featured Destinations</h2>
+              <div className={styles['destination-grid']}>
+                {["Cartagena", "Medellín", "Bogotá"].map((city) => (
+                  <DestinationCard
+                    key={city}
+                    city={city}
+                    imageSrc={`/images/${city}.jpg`}
+                    altText={`View of ${city}`}
+                  />
                 ))}
-                {loading && (
-                    <div style={styles.messageLoading}>Assistant is typing...</div>
-                )}
+              </div>
             </div>
-            <div style={styles.inputContainer}>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your message..."
-                    style={styles.input}
-                    className="text-black"
-                />
-                <button onClick={handleSendMessage} style={styles.button}>
-                    Send
-                </button>
+          </section>
+
+          {/* Sección "about" */}
+          <section id="about" className={styles.about}>
+            <div className={styles.container}>
+              <h2>
+                Why <span>Colombia</span>?
+              </h2>
+              <div className={styles.grid}>
+                {[
+                  {
+                    title: 'Rich Culture',
+                    description: 'Experience vibrant traditions and warm hospitality',
+                  },
+                  {
+                    title: 'Diverse Landscapes',
+                    description: 'From Caribbean beaches to Andean mountains',
+                  },
+                  {
+                    title: 'Culinary Delights',
+                    description: 'Savor unique flavors and local specialties',
+                  },
+                ].map((item) => (
+                  <div key={item.title} className={styles.card}>
+                    <div className={styles['card-content']}>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-        </div>
-    );
-};
+          </section>
+        </main>
 
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "column" as const,
-        height: "100vh",
-        width: "100%",
-        justifyContent: "space-between",
-        padding: "10px",
-    },
-    chatBox: {
-        flex: 1,
-        display: "flex",
-        flexDirection: "column" as const,
-        overflowY: "auto" as const,
-        padding: "10px",
-        border: "1px solid #ddd",
-    },
-    message: {
-        maxWidth: "60%",
-        margin: "5px 0",
-        padding: "10px",
-        borderRadius: "8px",
-    },
-    messageLoading: {
-        fontStyle: "italic",
-        color: "#888",
-    },
-    inputContainer: {
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-    },
-    input: {
-        flex: 1,
-        padding: "10px",
-        fontSize: "16px",
-    },
-    button: {
-        padding: "10px 20px",
-        fontSize: "16px",
-    },
-};
+        {/* Footer */}
+        <footer className={styles.footer}>
+          <div className={styles.container}>
+            <div className={styles['footer-grid']}>
+              {/* Links rápidos */}
+              <div>
+                <h3>Quick Links</h3>
+                <ul>
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#destinations">Destinations</a></li>
+                  <li><a href="#about">About Us</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </div>
+              {/* Redes sociales */}
+              <div>
+                <h3>Follow Us</h3>
+                <div className={styles['social-links']}>
+                  <a href="#">Facebook</a>
+                  <a href="#">Twitter</a>
+                  <a href="#">Instagram</a>
+                </div>
+              </div>
 
-export default ChatPage;
+            </div>
+            {/* Newsletter */}
+            <div>
+              <h3>Newsletter</h3>
+              <p>Stay updated with our latest offers and news</p>
+              <div className={styles['newsletter-input']}>
+                <input type="email" placeholder="Your email" />
+                <button>Subscribe</button>
+              </div>
+            </div>
+            <div className={styles['footer-bottom']}>
+              <p>&copy; 2023 TurisTop. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
+  );
+}
