@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
+import {useTranslations} from 'next-intl';
 
 const ChatPage = () => {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
@@ -9,6 +10,7 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const chatBoxRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations('chat');
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -71,7 +73,7 @@ const ChatPage = () => {
                         {msg.content}
                     </div>
                 ))}
-                {loading && <div className={styles.messageLoading}>Asistente está escribiendo...</div>}
+                {loading && <div className={styles.messageLoading}>{t("assistant")}</div>}
             </div>
             <div className={styles.inputContainer}>
                 <input
@@ -79,11 +81,11 @@ const ChatPage = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown} // Agregado el evento onKeyDown
-                    placeholder="Escribe tu mensaje..."
+                    placeholder={t("placeholderChat")}
                     className={styles.input}
                 />
                 <button onClick={handleSendMessage} className={styles.button}>
-                    Enviar
+                {t("buttonSend")}
                 </button>
             </div>
             {error && <div className={styles.errorMessage}>{error}</div>}

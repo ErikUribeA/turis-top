@@ -5,9 +5,11 @@ import { useState } from 'react';
 import SelectLanguage from '../inputs/SelectLanguage';
 import { LoginButton } from '../buttons/LoginButton';
 import styles from './Header.module.scss';
+import {useTranslations} from 'next-intl';
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const t = useTranslations('header');
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -24,13 +26,13 @@ export default function Header() {
                 </button>
                 <nav className={`${styles.nav} ${menuOpen ? styles.open : ''}`}>
                     <Link href="#destinations" className={styles.navLink}>
-                        Destinations
+                    {t("destinations")}
                     </Link>
                     <Link href="#about" className={styles.navLink}>
-                        About
+                    {t("about")}
                     </Link>
                     <Link href="#contact" className={styles.navLink}>
-                        Contact
+                    {t("contact")}
                     </Link>
                     <div className={styles.mobileActions}>
                         <SelectLanguage />

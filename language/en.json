@@ -1,8 +1,57 @@
 {
-    "grettings": "Welcome to My App",
-    "language":{
-        "select": "Select language",
-        "OptionEs": "Spanish",
-        "OptionEn": "English"
+    "home": {
+        "title": "Discover Antioquia",
+        "parragraph": "Experience the magic of South America hidden gem",
+        "messageBegin": "Start Your Journey",
+        "destinations": "Featured Destinations",
+        "subtitle-1": "Why",
+        "subtitle-2": "Colombia",
+        "cardTitle-1": "Rich Culture",
+        "cardDescription-1": "Experience vibrant traditions and warm hospitality.",
+        "cardTitle-2": "Diverse Landscapes",
+        "cardDescription-2": "From Caribbean beaches to Andean mountains",
+        "cardTitle-3": "Culinary Delights",
+        "cardDescription-3": "Savor unique flavors and local specialties",
+        "links": "Quick Links"
+    },
+    "footer": {
+        "links": {
+            "title": "Enlaces rápidos",
+            "home": "Home",
+            "destinations": "Destinations",
+            "aboutUs": "About us",
+            "contact": "Contact"
+        },
+        "follow": {
+            "subtitle": "Follow us",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram"
+        },
+        "newsletter": {
+            "title": "Newsletter",
+            "parragraph": "Stay updated with our latest offers and news",
+            "subscribe": "Subscribe",
+            "email": "Your email",
+            "rights": "2023 TurisTop. All rights reserved."
+        }
+    },
+    "header": {
+        "destinations": "Destinations",
+        "about": "About",
+        "contact": "Contact"
+    },
+    "login": "Login with Google",
+    "session": "Logueado como",
+    "logout": "Log out",
+    "language": {
+        "select": "Selecciona un idioma",
+        "OptionEs": "Español",
+        "OptionEn": "Ingles"
+    },
+    "chat": {
+        "assistant": "Assistant is typing...",
+        "buttonSend": "Send",
+        "placeholderChat": "Write your message..."
     }
 }
