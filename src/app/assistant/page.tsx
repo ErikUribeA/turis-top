@@ -28,20 +28,7 @@ const ChatPage = () => {
         setLoading(true);
         const timeout = setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `¡Hola ${session?.user?.name || 'usuario'}! ¿En qué puedo ayudarte hoy?` },
-            ]);
-            setLoading(false);
-        }, 1000);
-
-        return () => clearTimeout(timeout);
-    }, [session?.user?.name]);
-
-    useEffect(() => {
-        // Simula un saludo inicial del asistente
-        setLoading(true);
-        const timeout = setTimeout(() => {
-            setMessages([
-                { role: 'assistant', content: `¡Hola ${session?.user?.name || 'usuario'}! ¿En qué puedo ayudarte hoy?` },
+                { role: 'assistant', content: `¡${t("hello")} ${session?.user?.name || 'usuario'}! ${t("message")}` },
             ]);
             setLoading(false);
         }, 1000);

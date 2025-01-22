@@ -49,6 +49,8 @@
         "OptionEn": "Ingles"
     },
     "chat": {
+        "hello":"Hola",
+        "message":"¿En qué puedo ayudarte hoy?",
         "assistant": "Asistente está escribiendo...",
         "buttonSend": "Enviar",
         "placeholderChat": "Escribe tu mensaje..."

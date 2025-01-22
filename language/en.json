@@ -50,6 +50,8 @@
         "OptionEn": "Ingles"
     },
     "chat": {
+        "hello":"Hello",
+        "message":"How can I help you today?",
         "assistant": "Assistant is typing...",
         "buttonSend": "Send",
         "placeholderChat": "Write your message..."
