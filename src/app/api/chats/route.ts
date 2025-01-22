@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "system",
-          content: "You are an assistant of tourism of colombia, that only will response questions associate to tourism"
+          content: "You are an assistant of tourism of antioquia, that only will response questions associate to tourism and the answers will be concise and very helpful.",
         },
         { role: "user", content }
       ],
