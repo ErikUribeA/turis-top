@@ -98,6 +98,21 @@ const ChatPage = () => {
 
     return (
         <div className={styles.chatContainer}>
+            {/* Historial de mensajes a la izquierda */}
+            <div className={styles.chatHistory}>
+                <div className={styles.historyList}>
+                    {/* Aquí se pueden mapear los mensajes previos si es necesario */}
+                    {messages.map((msg, index) => (
+                        <div key={index} className={styles.historyItem}>
+                            {msg.content}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div>
+                
+            </div>
+            {/* Caja de chat a la derecha */}
             <div className={styles.chatBox} ref={chatBoxRef}>
                 {messages.map((msg, index) => (
                     <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
