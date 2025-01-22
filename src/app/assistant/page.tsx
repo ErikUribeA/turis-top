@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
+import {useTranslations} from 'next-intl';
+import { useSession } from 'next-auth/react';
 
 const ChatPage = () => {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
@@ -9,6 +11,11 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const chatBoxRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations('chat');
+    const { data: session } = useSession();
+
+    const MIN_LENGTH = 5; 
+    const MAX_LENGTH = 200; 
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -16,14 +23,41 @@ const ChatPage = () => {
         }
     }, [messages]);
 
+    useEffect(() => {
+        // Simula un saludo inicial del asistente
+        setLoading(true);
+        const timeout = setTimeout(() => {
+            setMessages([
+                { role: 'assistant', content: `¡${t("hello")} ${session?.user?.name || 'usuario'}! ${t("message")}` },
+            ]);
+            setLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [session?.user?.name]);
+
     const handleSendMessage = async () => {
-        if (!input.trim()) return;
+        if (!input.trim()) {
+            setError('El mensaje no puede estar vacío.');
+            return;
+        }
+
+        if (input.length < MIN_LENGTH) {
+            setError(`El mensaje debe tener al menos ${MIN_LENGTH} caracteres.`);
+            return;
+        }
+
+        if (input.length > MAX_LENGTH) {
+            setError(`El mensaje no puede superar los ${MAX_LENGTH} caracteres.`);
+            return;
+        }
+
+        setError(''); // Limpia el error si todo está bien
 
         const userMessage = { role: 'user', content: input };
         setMessages((prev) => [...prev, userMessage]);
         setInput('');
         setLoading(true);
-        setError('');
 
         try {
             const response = await fetch('/api/chats', {
@@ -80,28 +114,24 @@ const ChatPage = () => {
             </div>
             {/* Caja de chat a la derecha */}
             <div className={styles.chatBox} ref={chatBoxRef}>
-                <div className={styles.messages}>
-                    {messages.map((msg, index) => (
-                        <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
-                            {msg.content}
-                        </div>
-                    ))}
-                    {loading && <div className={styles.messageLoading}>Asistente está escribiendo...</div>}
-                </div>
+                {messages.map((msg, index) => (
+                    <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
+                        {msg.content}
+                    </div>
+                ))}
+                {loading && <div className={styles.messageLoading}>{t("assistant")}</div>}
             </div>
-
-            {/* Input y botón */}
             <div className={styles.inputContainer}>
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Escribe tu mensaje..."
+                    onKeyDown={handleKeyDown} // Agregado el evento onKeyDown
+                    placeholder={t("placeholderChat")}
                     className={styles.input}
                 />
                 <button onClick={handleSendMessage} className={styles.button}>
-                    Enviar
+                {t("buttonSend")}
                 </button>
             </div>
             {error && <div className={styles.errorMessage}>{error}</div>}
