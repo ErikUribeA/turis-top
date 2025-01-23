@@ -1,14 +1,12 @@
 // app/api/chats/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { OpenAI } from "openai";
+import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { OpenAI } from "openai";
 
 const prisma = new PrismaClient();
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
   try {
