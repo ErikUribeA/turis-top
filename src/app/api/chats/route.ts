@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 }
 
 // Endpoint opcional para obtener el historial de chat
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     

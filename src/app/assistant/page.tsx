@@ -2,11 +2,37 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
-import {useTranslations} from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
+
+interface historyChat {
+    id: string;
+    question: string;
+    answer: string
+}
+
+// Function to fetch chat history
+async function fetchChatHistory() {
+    try {
+        const response = await fetch('/api/history', {
+            method: 'GET',
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch chat history');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching chat history:', error);
+        return { history: [] };
+    }
+}
 
 const ChatPage = () => {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+    const [chatHistory, setChatHistory] = useState<historyChat[]>([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -14,8 +40,18 @@ const ChatPage = () => {
     const t = useTranslations('chat');
     const { data: session } = useSession();
 
-    const MIN_LENGTH = 5; 
-    const MAX_LENGTH = 200; 
+    const MIN_LENGTH = 5;
+    const MAX_LENGTH = 200;
+
+    // Fetch chat history on component mount
+    useEffect(() => {
+        const loadChatHistory = async () => {
+            const { history } = await fetchChatHistory();
+            setChatHistory(history);
+        };
+
+        loadChatHistory();
+    }, []);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -34,7 +70,7 @@ const ChatPage = () => {
         }, 1000);
 
         return () => clearTimeout(timeout);
-    }, [session?.user?.name]);
+    }, [t, session?.user?.name,]);
 
     const handleSendMessage = async () => {
         if (!input.trim()) {
@@ -101,38 +137,46 @@ const ChatPage = () => {
             {/* Historial de mensajes a la izquierda */}
             <div className={styles.chatHistory}>
                 <div className={styles.historyList}>
-                    {/* Aquí se pueden mapear los mensajes previos si es necesario */}
-                    {messages.map((msg, index) => (
-                        <div key={index} className={styles.historyItem}>
-                            {msg.content}
+                    {chatHistory.map((chat) => (
+                        <div key={chat.id} className={styles.historyItem}>
+                            {/* Globo para la pregunta */}
+                            <div className={`${styles.bubble} ${styles.question}`}>
+                                <p>{chat.question}</p>
+                            </div>
+                            {/* Globo para la respuesta */}
+                            <div className={`${styles.bubble} ${styles.answer}`}>
+                                <p>{chat.answer}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
-            <div>
-                
-            </div>
-            {/* Caja de chat a la derecha */}
-            <div className={styles.chatBox} ref={chatBoxRef}>
-                {messages.map((msg, index) => (
-                    <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
-                        {msg.content}
-                    </div>
-                ))}
-                {loading && <div className={styles.messageLoading}>{t("assistant")}</div>}
-            </div>
-            <div className={styles.inputContainer}>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown} // Agregado el evento onKeyDown
-                    placeholder={t("placeholderChat")}
-                    className={styles.input}
-                />
-                <button onClick={handleSendMessage} className={styles.button}>
-                {t("buttonSend")}
-                </button>
+
+
+            <div className={styles.chatRight}>
+                {/* Caja de chat a la derecha */}
+                <div className={styles.chatBox} ref={chatBoxRef}>
+                    {messages.map((msg, index) => (
+                        <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
+                            {msg.content}
+                        </div>
+                    ))}
+                    {loading && <div className={styles.messageLoading}>{t("assistant")}</div>}
+                </div>
+
+                <div className={styles.inputContainer}>
+                    <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={t("placeholderChat")}
+                        className={styles.input}
+                    />
+                    <button onClick={handleSendMessage} className={styles.button}>
+                        {t("buttonSend")}
+                    </button>
+                </div>
             </div>
             {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
