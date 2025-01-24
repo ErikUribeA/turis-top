@@ -1,45 +1,92 @@
+// app/api/chats/route.ts
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 import { OpenAI } from "openai";
 
-const openai = new OpenAI({
-    apiKey: process.env.API_KEY, // Asegúrate de configurar esta variable de entorno
-});
-
-interface RequestBody {
-    content: string;
-}
+const prisma = new PrismaClient();
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
-    try {
-        const body: RequestBody = await req.json();
-        const { content } = body;
-
-        if (!content) {
-            return NextResponse.json(
-                { error: "El campo 'content' es obligatorio." },
-                { status: 400 }
-            );
-        }
-
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4", 
-            messages: [
-                { role: "system", content: "You are an assistant of tourism of colombia, that only will response questions associate to tourism" },
-                { role: "user", content },
-            ],
-        });
-
-        const result = completion.choices[0].message?.content;
-
-        return NextResponse.json({
-            message: "Values added successfully",
-            result,
-        });
-    } catch (error) {
-        console.error("Error:", error);
-        return NextResponse.json(
-            { error: "Ocurrió un error al procesar la solicitud." },
-            { status: 500 }
-        );
+  try {
+    // 1. Verificar que el usuario esté autenticado
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
+
+    // 2. Obtener el mensaje del usuario
+    const { content } = await req.json();
+    if (!content) {
+      return NextResponse.json(
+        { error: "El mensaje es requerido" },
+        { status: 400 }
+      );
+    }
+
+    // 3. Obtener respuesta de OpenAI
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: "You are an assistant of tourism of antioquia, that only will response questions associate to tourism and the answers will be concise and very helpful.",
+        },
+        { role: "user", content }
+      ],
+    });
+
+    const aiResponse = completion.choices[0].message?.content || "";
+
+    // 4. Guardar la conversación en la base de datos
+    const savedChat = await prisma.ask.create({
+      data: {
+        userId: session.user.id,
+        question: content,
+        answer: aiResponse,
+      },
+    });
+
+    return NextResponse.json({
+      result: aiResponse,
+      chatId: savedChat.id
+    });
+
+  } catch (error) {
+    console.error("Error en el chat:", error);
+    return NextResponse.json(
+      { error: "Error al procesar la solicitud" },
+      { status: 500 }
+    );
+  }
+}
+
+// Endpoint opcional para obtener el historial de chat
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    const chatHistory = await prisma.ask.findMany({
+      where: {
+        userId: session.user.id
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    return NextResponse.json({ history: chatHistory });
+  } catch (error) {
+    console.error("Error al obtener historial:", error);
+    return NextResponse.json(
+      { error: "Error al obtener el historial" },
+      { status: 500 }
+    );
+  }
 }
