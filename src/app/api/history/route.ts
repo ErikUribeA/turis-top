@@ -1,13 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
       const session = await getServerSession();
-      if (!session?.user?.id) {
+      if (!session) {
         return NextResponse.json(
           { error: "No autorizado" },
           { status: 401 }
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
           userId: session.user.id
         },
         orderBy: {
-          createdAt: 'desc'
+          createdAt: 'asc'
         }
       });
   

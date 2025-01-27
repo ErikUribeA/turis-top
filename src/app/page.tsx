@@ -1,12 +1,13 @@
-'use client';
-import DestinationCard from '@/components/card/DestinationCard';
-import styles from './Home.module.scss';
-import Image from 'next/image';
-import {useTranslations} from 'next-intl';
+"use client";
+import DestinationCard from "@/components/card/DestinationCard";
+import styles from "./Home.module.scss";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import TurisBotMain from "@/components/buttons/TurisBotMain";
 
 export default function Home() {
-  const t = useTranslations('home');
-  const tr = useTranslations('footer');
+  const t = useTranslations("home");
+  const tr = useTranslations("footer");
   return (
     <>
       <div className={styles.home}>
@@ -20,11 +21,13 @@ export default function Home() {
               objectFit="cover"
               priority
             />
-            <div className={styles['hero-overlay']}>
-              <div className={styles['hero-content']}>
+            <div className={styles["hero-overlay"]}>
+              <div className={styles["hero-content"]}>
                 <h1>{t("title")}</h1>
                 <p>{t("parragraph")}</p>
-                <button className={styles['start-journey-button']}>{t("messageBegin")}</button>
+                <button className={styles["start-journey-button"]}>
+                  {t("messageBegin")}
+                </button>
               </div>
             </div>
           </section>
@@ -33,15 +36,17 @@ export default function Home() {
           <section id="destinations" className={styles.destinations}>
             <div className={styles.container}>
               <h2>{t("destinations")}</h2>
-              <div className={styles['destination-grid']}>
-                {["Santa Fé de Antioquia", "Medellín", "Guatapé"].map((city) => (
-                  <DestinationCard
-                    key={city}
-                    city={city}
-                    imageSrc={`/images/${city}.jpg`}
-                    altText={`View of ${city}`}
-                  />
-                ))}
+              <div className={styles["destination-grid"]}>
+                {["Santa Fé de Antioquia", "Medellín", "Guatapé"].map(
+                  (city) => (
+                    <DestinationCard
+                      key={city}
+                      city={city}
+                      imageSrc={`/images/${city}.jpg`}
+                      altText={`View of ${city}`}
+                    />
+                  )
+                )}
               </div>
             </div>
           </section>
@@ -50,12 +55,12 @@ export default function Home() {
           <section id="about" className={styles.about}>
             <div className={styles.container}>
               <h2>
-              {t("subtitle-1")} <span>{t("subtitle-2")}</span>?
+                {t("subtitle-1")} <span>{t("subtitle-2")}</span>?
               </h2>
               <div className={styles.grid}>
                 {[
                   {
-                    title:t("cardTitle-1"),
+                    title: t("cardTitle-1"),
                     description: t("cardDescription-1"),
                   },
                   {
@@ -68,7 +73,7 @@ export default function Home() {
                   },
                 ].map((item) => (
                   <div key={item.title} className={styles.card}>
-                    <div className={styles['card-content']}>
+                    <div className={styles["card-content"]}>
                       <h3>{item.title}</h3>
                       <p>{item.description}</p>
                     </div>
@@ -77,43 +82,54 @@ export default function Home() {
               </div>
             </div>
           </section>
+          <TurisBotMain
+            imageUrl="/images/turisbot.png?height=400&width=400"
+            welcomeMessage={t("turisbot")}
+          />
         </main>
 
         {/* Footer */}
         <footer className={styles.footer}>
           <div className={styles.container}>
-            <div className={styles['footer-grid']}>
+            <div className={styles["footer-grid"]}>
               {/* Links rápidos */}
               <div>
                 <h3>{tr("links.title")}</h3>
                 <ul>
-                  <li><a href="#">{tr("links.home")}</a></li>
-                  <li><a href="#destinations">{tr("links.destinations")}</a></li>
-                  <li><a href="#about">{tr("links.aboutUs")}</a></li>
-                  <li><a href="#">{tr("links.contact")}</a></li>
+                  <li>
+                    <a href="#">{tr("links.home")}</a>
+                  </li>
+                  <li>
+                    <a href="#destinations">{tr("links.destinations")}</a>
+                  </li>
+                  <li>
+                    <a href="#about">{tr("links.aboutUs")}</a>
+                  </li>
+                  <li>
+                    <a href="#">{tr("links.contact")}</a>
+                  </li>
                 </ul>
               </div>
               {/* Redes sociales */}
               <div>
                 <h3>{tr("follow.subtitle")}</h3>
-                <div className={styles['social-links']}>
+                <div className={styles["social-links"]}>
                   <a href="#">{tr("follow.facebook")}</a>
                   <a href="#">{tr("follow.twitter")}</a>
                   <a href="#">{tr("follow.instagram")}</a>
                 </div>
               </div>
-
             </div>
             {/* Newsletter */}
             <div>
               <h3>{tr("newsletter.title")}</h3>
               <p>{tr("newsletter.parragraph")}</p>
-              <div className={styles['newsletter-input']}>
+              <div className={styles["newsletter-input"]}>
                 <input type="email" placeholder={tr("newsletter.email")} />
                 <button>{tr("newsletter.subscribe")}</button>
               </div>
             </div>
-            <div className={styles['footer-bottom']}>
+            <div className={styles["footer-bottom"]}>
               <p>&copy; {tr("newsletter.rights")}</p>
             </div>
           </div>
