@@ -1,6 +1,6 @@
 .chatContainer {
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     height: 90vh;
     width: 100%;
     max-width: 1200px;
@@ -8,15 +8,16 @@
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-
+  
     @media (max-width: 800px) {
-        flex-direction: column;  
-        max-width: 100%;
+      flex-direction: column;
+      max-width: 100%;
+      padding: 10px;
     }
-}
-
-.chatHistory {
-    width: 300px;  
+  }
+  
+  .chatHistory {
+    width: 300px;
     background-color: #f4f4f4;
     padding: 10px;
     border-radius: 8px;
@@ -24,33 +25,40 @@
     margin-right: 20px;
     overflow-y: auto;
     height: 100%;
-    
+  
     @media (max-width: 800px) {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
+      width: 100px; // Reducir a un tamaño más pequeño
+      margin-right: 0;
+      margin-bottom: 10px;
+      height: 40%; // Limitar la altura del historial para que no ocupe toda la pantalla
+      display: flex;
+      flex-direction: column;
     }
-}
-
-.historyList {
+  
+    @media (max-width: 600px) {
+      display: none; // Ocultar el historial por completo en pantallas más pequeñas
+    }
+  }
+  
+  .historyList {
     display: flex;
     flex-direction: column;
-}
-
-.historyItem {
+  }
+  
+  .historyItem {
     padding: 10px;
     margin-bottom: 10px;
     background-color: #e9e9e9;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
-
+  
     &:hover {
-        background-color: #d0d0d0;
+      background-color: #d0d0d0;
     }
-}
-
-.chatBox {
+  }
+  
+  .chatBox {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -60,52 +68,69 @@
     border-radius: 8px;
     background-color: #f9f9f9;
     position: relative;
-    max-height: 90%;  
-}
-
-.messages {
+    max-height: 90%;
+  
+    @media (max-width: 800px) {
+      max-height: calc(100vh - 130px); // Ajustamos la altura para que no se sobreponga
+    }
+  }
+  
+  .messages {
     flex: 1;
     overflow-y: auto;
-}
-
-.message {
+  }
+  
+  .message {
     max-width: 70%;
     margin: 8px 0;
     padding: 12px;
     border-radius: 18px;
     word-wrap: break-word;
-}
-
-.user {
+  }
+  
+  .user {
     align-self: flex-end;
     background-color: #007bff;
     color: white;
-}
-
-.assistant {
+  }
+  
+  .assistant {
     align-self: flex-start;
     background-color: #e9e9e9;
     color: #333;
-}
-
-.messageLoading {
+  }
+  
+  .messageLoading {
     align-self: flex-start;
     font-style: italic;
     color: #888;
     margin: 8px 0;
-}
-
-.inputContainer {
+  }
+  
+  .inputContainer {
     display: flex;
     gap: 210px;
-    margin-top: 10px; 
-    position: absolute; 
+    margin-top: 10px;
+    position: absolute;
     bottom: 17px;
     left: 310px;
     width: 100%;
-}
-
-.input {
+  
+    @media (max-width: 800px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      gap: 5px;
+      flex-direction: row;
+      background-color: #fff; // Fondo blanco para la barra de entrada
+      border-top: 1px solid #ddd;
+      z-index: 1;
+    }
+  }
+  
+  .input {
     flex: 1;
     padding: 12px;
     font-size: 16px;
@@ -113,9 +138,14 @@
     border-radius: 24px;
     outline: none;
     width: 70%;
-}
-
-.button {
+  
+    @media (max-width: 800px) {
+      font-size: 14px;
+      width: 65%; // Ajustamos el tamaño en pantallas pequeñas
+    }
+  }
+  
+  .button {
     padding: 12px 24px;
     font-size: 16px;
     background-color: #007bff;
@@ -124,33 +154,55 @@
     border-radius: 24px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
+  
     &:hover {
-        background-color: #0056b3;
+      background-color: #0056b3;
     }
-}
-
-.errorMessage {
+  
+    @media (max-width: 800px) {
+      font-size: 14px;
+      padding: 10px 20px;
+      width: 30%; // Ajustamos el tamaño del botón en pantallas pequeñas
+    }
+  }
+  
+  .errorMessage {
     color: #ff0000;
     margin-top: 10px;
     text-align: center;
-}
-
-@media (max-width: 600px) {
+  }
+  
+  @media (max-width: 600px) {
     .chatContainer {
-        padding: 10px;
+      padding: 10px;
     }
-
+  
     .message {
-        max-width: 80%;
+      max-width: 80%;
     }
-
+  
     .input {
-        font-size: 10px;
+      font-size: 12px;
     }
-
+  
     .button {
-        font-size: 14px;
-        padding: 10px 20px;
+      font-size: 14px;
+      padding: 10px 20px;
     }
-}
+  
+    .inputContainer {
+      gap: 5px;
+      flex-direction: row;
+      position: static;
+      width: 100%;
+    }
+  
+    .input {
+      width: 70%;
+    }
+  
+    .button {
+      width: 25%;
+    }
+  }
+  
