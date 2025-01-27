@@ -11,7 +11,8 @@
         "cardTitle-2": "Diversos paisajes",
         "cardDescription-2": "Una atmósfera encantadora",
         "cardTitle-3": "Delicias culinarias",
-        "cardDescription-3": "Sabores únicos y especialidades locales."
+        "cardDescription-3": "Sabores únicos y especialidades locales.",
+        "turisbot":"¡Hola! Bienvenido soy TurisBot, puedes preguntarme lo que quieras para que tu viaje sea inolvidable."
     },
     "footer": {
         "links": {
@@ -42,7 +43,7 @@
     },
     "login": "Ingresar con Google",
     "session": "Logueado como",
-    "logout": "Cerrar session",
+    "logout": "Cerrar sesión",
     "language": {
         "select": "Selecciona un idioma",
         "OptionEs": "Español",
