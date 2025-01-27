@@ -18,7 +18,7 @@ export default function Header() {
     };
 
     return (
-        <header className={styles.header}>
+        <header className={`${styles.header} ${theme === 'dark' ? styles.dark : styles.light}`}>
           <div className={styles.headerContainer}>
             <Link href="/" className={styles.logo}>
               TurisTop
@@ -26,7 +26,7 @@ export default function Header() {
             <button className={styles.hamburger} onClick={toggleMenu} aria-label="Toggle Menu">
               <span className={menuOpen ? styles.active : ''}></span>
             </button>
-            <nav className={`${styles.nav} ${menuOpen ? styles.open : ''}`}>
+            <nav className={`${styles.nav} ${theme === 'dark' ? styles.dark : styles.light} ${menuOpen ? styles.open : ''}`}>
               <Link href="#destinations" className={styles.navLink}>
                 {t('destinations')}
               </Link>

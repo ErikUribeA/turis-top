@@ -53,10 +53,10 @@ export default function TurisBotMain({ imageUrl, welcomeMessage }: InteractiveIm
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3 }}
-          className="absolute bottom-full left-0 mb-2 p-4 bg-white rounded-lg shadow-lg max-w-xs"
+          className="absolute bottom-full left-0 mb-2 p-4 bg-white rounded-lg shadow-lg max-w-xs dark:bg-gray-800 "
         >
-          <div className="text-gray-800">{welcomeMessage}</div>
-          <div className="absolute left-4 bottom-0 w-4 h-4 bg-white transform rotate-45 translate-y-2" />
+          <div className="dark:text-gray-200 text-gray-800">{welcomeMessage}</div>
+          <div className="absolute left-4 bottom-0 w-4 h-4 bg-white dark:bg-gray-600 transform rotate-45 translate-y-2" />
         </motion.div>
       )}
     </div>
