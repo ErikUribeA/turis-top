@@ -4,6 +4,15 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    &.light {
+        background-color: #ffffff;
+;
+      }
+    
+      &.dark {
+        background-color: #1a202c;  // Fondo oscuro
+             // Texto claro
+      }
 }
 
 .main {
@@ -13,8 +22,17 @@
 .hero {
     position: relative;
     height: 70vh;
+    background-color: inherit;
 }
 
+.hero, .destinations, .about {
+    &.light {
+        background-color: #ffffff;  /* Fondo claro */
+    }
+    &.dark {
+        background-color: #1a202c;  /* Fondo oscuro */
+    }
+}
 .hero-overlay {
     position: absolute;
     inset: 0;
@@ -57,6 +75,38 @@
 .destinations {
     background-color: #f3f4f6;
     padding: 64px 16px;
+    h2 {
+        color: #1f2937; /* Color por defecto para el tema claro */
+      }
+    
+      /* Cuando el tema es oscuro, cambia el color del h2 */
+      &.dark h2 {
+        color: #f7fafc; /* Color claro para el tema oscuro */
+      }
+    
+      /* Cuando el tema es claro, mantén el color por defecto */
+      &.light h2 {
+        color: #1f2937; /* El color que quieras para el tema claro */
+      }
+}
+
+
+.about {
+    background-color: #f3f4f6;
+    padding: 64px 16px;
+    h2 {
+        color: #1f2937; /* Color por defecto para el tema claro */
+      }
+    
+      /* Cuando el tema es oscuro, cambia el color del h2 */
+      &.dark h2 {
+        color: #f7fafc; /* Color claro para el tema oscuro */
+      }
+    
+      /* Cuando el tema es claro, mantén el color por defecto */
+      &.light h2 {
+        color: #1f2937; /* El color que quieras para el tema claro */
+      }
 }
 
 .container {
@@ -71,6 +121,7 @@
     font-weight: bold;
     margin-bottom: 32px;
 }
+
 
 .destination-grid {
     display: grid;
@@ -169,6 +220,13 @@
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 16px;
+    &.light {
+        background-color: #f3f4f6; /* Fondo claro en el footer */
+    }
+
+    &.dark {
+        background-color: #2d3748; /* Fondo oscuro en el footer */
+    }
 }
 
 .footer ul {

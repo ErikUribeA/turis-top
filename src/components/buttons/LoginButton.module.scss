@@ -24,9 +24,18 @@
       gap: 15px;
       color: blue;
     }
-  }
-  
-  .google-icon {
+
+    &.light {
+        color: #1a202c;
+;
+      }
+    
+      &.dark {
+        color: #fff;  
+      }
+}
+
+.google-icon {
     font-size: 1.5em;
   }
   

@@ -1,14 +1,24 @@
 .chatContainer {
     display: flex;
-    flex-direction: row;
-    height: 90vh;
+    flex-direction: row;  
+    height: 100vh;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-  
+
+    &.light {
+        background-color: #ffffff;
+;
+      }
+    
+      &.dark {
+        background-color: #1a202c;  // Fondo oscuro
+             // Texto claro
+      }
+
     @media (max-width: 800px) {
       flex-direction: column;
       max-width: 100%;
@@ -24,6 +34,16 @@
 
 .chatRight {
     width: 70%;
+    &.light {
+        background-color: #ffffff;
+;
+      }
+    
+      &.dark {
+        background-color: #1a202c;  // Fondo oscuro
+             // Texto claro
+      }
+
 }
 
 .chatHistory {
