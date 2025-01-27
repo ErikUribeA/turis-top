@@ -9,6 +9,16 @@
     box-sizing: border-box;
     position: relative;
 
+    &.light {
+        background-color: #ffffff;
+;
+      }
+    
+      &.dark {
+        background-color: #1a202c;  // Fondo oscuro
+             // Texto claro
+      }
+
     @media (max-width: 800px) {
         flex-direction: column;  
         max-width: 100%;
@@ -17,6 +27,15 @@
 
 .chatRight {
     width: 70%;
+    &.light {
+        background-color: #ffffff;
+;
+      }
+    
+      &.dark {
+        background-color: #1a202c;  // Fondo oscuro
+             // Texto claro
+      }
 
 }
 

@@ -3,13 +3,14 @@ import DestinationCard from '@/components/card/DestinationCard';
 import styles from './Home.module.scss';
 import Image from 'next/image';
 import {useTranslations} from 'next-intl';
-
+import { useTheme } from '../context/ThemeContext'; // Importa el hook useTheme
 export default function Home() {
   const t = useTranslations('home');
   const tr = useTranslations('footer');
+  const { theme, toggleTheme } = useTheme();
   return (
     <>
-      <div className={styles.home}>
+      <div className={`${styles.home} ${theme === 'dark' ? styles.dark : styles.light}`}>
         <main className={styles.main}>
           {/* Sección de héroe */}
           <section className={styles.hero}>
@@ -30,7 +31,7 @@ export default function Home() {
           </section>
 
           {/* Sección de destinos */}
-          <section id="destinations" className={styles.destinations}>
+          <section id="destinations" className={`${styles.destinations} ${theme === 'dark' ? styles.dark : styles.light}`}>
             <div className={styles.container}>
               <h2>{t("destinations")}</h2>
               <div className={styles['destination-grid']}>
@@ -47,7 +48,7 @@ export default function Home() {
           </section>
 
           {/* Sección "about" */}
-          <section id="about" className={styles.about}>
+          <section id="about" className={`${styles.about} ${theme === 'dark' ? styles.dark : styles.light}`}>
             <div className={styles.container}>
               <h2>
               {t("subtitle-1")} <span>{t("subtitle-2")}</span>?
@@ -80,7 +81,7 @@ export default function Home() {
         </main>
 
         {/* Footer */}
-        <footer className={styles.footer}>
+        <footer className={`${styles.footer} ${theme === 'dark' ? styles.dark : styles.light}`}>
           <div className={styles.container}>
             <div className={styles['footer-grid']}>
               {/* Links rápidos */}
