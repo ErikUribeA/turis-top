@@ -1,5 +1,5 @@
 .select {
-    width: 200px;
+    width: 180px;
     padding: 10px;
     font-size: 1rem;
     font-weight: 500;
@@ -24,6 +24,13 @@
 
     &::placeholder {
         color: #9ca3af;
+    }
+
+    &.dark {
+        background-color: #1a202c;
+        border: 2px solid #3f4f70;
+        color: white;
+
     }
 }
 
