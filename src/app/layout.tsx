@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 import Header from "@/components/header/Header";
-import { ThemeProvider } from "../context/ThemeContext"; 
+import { ThemeProvider } from "../context/ThemeContext";
 import ThemeWrapper from "@/ThemeWrapper";
 
 const geistSans = Geist({
@@ -38,7 +38,9 @@ export default async function RootLayout({
           <AuthProvider>
             <ThemeProvider> {/* Aquí envolvemos con ThemeProvider */}
               <Header />
-              <ThemeWrapper>{children}</ThemeWrapper> 
+              <ThemeWrapper>
+                {children}
+              </ThemeWrapper>
             </ThemeProvider>
           </AuthProvider>
         </NextIntlClientProvider>

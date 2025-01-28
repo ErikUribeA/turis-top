@@ -9,7 +9,7 @@ export function LoginButton() {
   const { data: session } = useSession();
   const router = useRouter();
   const t = useTranslations();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/" });
     router.push("/");

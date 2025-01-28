@@ -8,7 +8,7 @@ import TurisBotMain from "@/components/buttons/TurisBotMain";
 export default function Home() {
   const t = useTranslations('home');
   const tr = useTranslations('footer');
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   return (
     <>
       <div className={`${styles.home} ${theme === 'dark' ? styles.dark : styles.light}`}>
