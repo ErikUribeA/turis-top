@@ -40,7 +40,7 @@ const ChatPage = () => {
     const chatBoxRef = useRef<HTMLDivElement>(null);
     const t = useTranslations('chat');
     const { data: session } = useSession();
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
 
     const MIN_LENGTH = 5;
     const MAX_LENGTH = 200;
@@ -137,6 +137,7 @@ const ChatPage = () => {
     return (
         <div className={`${styles.chatContainer} ${theme === 'dark' ? styles.dark : styles.light}`}>
             {/* Historial de mensajes a la izquierda */}
+            
             <div className={styles.chatHistory}>
                 <div className={styles.historyList}>
                     {chatHistory.map((chat) => (
