@@ -131,7 +131,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles["footer-bottom"]}>
-              <p>&copy; {tr("newsletter.rights")}</p>
+              <p>&copy; {new Date().getFullYear()}{tr("newsletter.rights")}</p>
             </div>
           </div>
         </footer>
