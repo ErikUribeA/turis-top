@@ -1,42 +1,64 @@
 /* LoginButton.module.scss */
 
 .button {
-    padding: 10px;
+  padding: 10px;
+  color: blue;
+  border: 2px solid blue;
+  border-radius: 8px;
+  width: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.logout {
     color: blue;
-    border: 1px solid blue;
-    border-radius: 8px;
+    padding: 8px;
+  }
 
-    &:hover {
-        transform: translateY(-2px);
-    }
+  &.login {
+    display: flex;
+    color: blue;
+  }
 
-    &:active {
-        transform: translateY(0);
-    }
+  &.light {
+    color: #1a202c;
+    ;
+  }
 
-    &.logout {
-        color: blue;
-        padding: 8px;
-    }
-
-    &.login {
-        display: flex;
-        gap: 15px;
-        color: blue;
-    }
+  &.dark {
+    color: #fff;
+    border: 2px solid #2563eb;
+  }
 }
 
 .google-icon {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 @media (max-width: 600px) {
-    .login-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .login-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .button {
-        width: 100%;
-    }
+  .button {
+    width: 40%;
+  }
+
+  .google-icon {
+    font-size: 1.2em;
+  }
+
+  .button.login {
+    gap: 10px;
+  }
+
+  .button.logout {
+    padding: 10px;
+  }
 }

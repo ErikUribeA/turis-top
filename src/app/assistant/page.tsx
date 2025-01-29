@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './ChatPage.module.scss';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
+import { useTheme } from '../../context/ThemeContext';
 
 interface historyChat {
     id: string;
@@ -39,6 +40,7 @@ const ChatPage = () => {
     const chatBoxRef = useRef<HTMLDivElement>(null);
     const t = useTranslations('chat');
     const { data: session } = useSession();
+    const { theme } = useTheme();
 
     const MIN_LENGTH = 5;
     const MAX_LENGTH = 200;
@@ -133,8 +135,9 @@ const ChatPage = () => {
     };
 
     return (
-        <div className={styles.chatContainer}>
+        <div className={`${styles.chatContainer} ${theme === 'dark' ? styles.dark : styles.light}`}>
             {/* Historial de mensajes a la izquierda */}
+            
             <div className={styles.chatHistory}>
                 <div className={styles.historyList}>
                     {chatHistory.map((chat) => (
@@ -153,7 +156,7 @@ const ChatPage = () => {
             </div>
 
 
-            <div className={styles.chatRight}>
+            <div className={`${styles.chatRight} ${theme === 'dark' ? styles.dark : styles.light}`}>
                 {/* Caja de chat a la derecha */}
                 <div className={styles.chatBox} ref={chatBoxRef}>
                     {messages.map((msg, index) => (

@@ -5,13 +5,14 @@
         "messageBegin": "Start Your Journey",
         "destinations": "Featured Destinations",
         "subtitle-1": "Why",
-        "subtitle-2": "Colombia",
+        "subtitle-2": "Antioquia",
         "cardTitle-1": "Rich Culture",
         "cardDescription-1": "Experience vibrant traditions and warm hospitality.",
         "cardTitle-2": "Diverse Landscapes",
         "cardDescription-2": "From Caribbean beaches to Andean mountains",
         "cardTitle-3": "Culinary Delights",
         "cardDescription-3": "Savor unique flavors and local specialties",
+        "turisbot":"¡Hi! Welcome I am TurisBot,you can ask me whatever you want to make your travel unforgettable.",
         "links": "Quick Links"
     },
     "footer": {
@@ -45,9 +46,9 @@
     "session": "Logueado como",
     "logout": "Log out",
     "language": {
-        "select": "Selecciona un idioma",
-        "OptionEs": "Español",
-        "OptionEn": "Ingles"
+        "select": "Select a language",
+        "OptionEs": "Spanish",
+        "OptionEn": "English"
     },
     "chat": {
         "hello":"Hello",
