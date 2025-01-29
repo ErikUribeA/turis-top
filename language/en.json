@@ -34,7 +34,7 @@
             "parragraph": "Stay updated with our latest offers and news",
             "subscribe": "Subscribe",
             "email": "Your email",
-            "rights": "2023 TurisTop. All rights reserved."
+            "rights": " TurisTop. All rights reserved."
         }
     },
     "header": {
@@ -46,9 +46,9 @@
     "session": "Logueado como",
     "logout": "Log out",
     "language": {
-        "select": "Select a language",
-        "OptionEs": "Spanish",
-        "OptionEn": "English"
+        "select": "Selecciona un idioma",
+        "OptionEs": "Español",
+        "OptionEn": "Ingles"
     },
     "chat": {
         "hello":"Hello",
