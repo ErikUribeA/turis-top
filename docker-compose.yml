@@ -13,7 +13,7 @@ services:
     # Set environment variables for the app container
     environment:
       # Define the database connection string for the app
-      DATABASE_URL: postgres://postgres:postgres@db:5432/DataTurisTop?schema=public
+      DATABASE_URL: postgres://neondb_owner:r8Wbcq3VMeST@ep-cool-boat-a4ak320c-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
       OPENAI_API_KEY: "${OPENAI_API_KEY}" 
     volumes:
       - .:/app             # Mount the current directory into /app inside the container for live code updates

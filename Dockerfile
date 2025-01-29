@@ -16,6 +16,9 @@ COPY . .
 # Generate Prisma Client after schema is present
 RUN npx prisma generate
 
+# Build the application
+RUN npm run build
+
 # Expose the port Next.js runs on
 EXPOSE 3000
 
