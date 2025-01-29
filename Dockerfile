@@ -22,7 +22,5 @@ RUN npm run build
 # Expose the port Next.js runs on
 EXPOSE 3000
 
-
-
 # Define command to start the application in development mode
 CMD ["npm", "run", "dev"]

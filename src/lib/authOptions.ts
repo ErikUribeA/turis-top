@@ -48,10 +48,12 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
         async redirect({ url, baseUrl }) {
+            console.log("Redirect URL:", url); // Verifica en los logs de Vercel
+            console.log("Base URL:", baseUrl); // Verifica en los logs de Vercel
             if (url === "/") {
                 return baseUrl;
             }
-            return baseUrl + "/assistant";
+            return `${baseUrl}/assistant`;
         },
     },
     pages: {
