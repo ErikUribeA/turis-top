@@ -47,8 +47,11 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-        async redirect({ baseUrl }) {
-            return `${baseUrl}/assistant`;
+        async redirect({ url, baseUrl }) {
+            if (url === "/") {
+                return baseUrl;
+            }
+            return baseUrl + "/assistant";
         },
     },
     debug: process.env.NODE_ENV === "development",
