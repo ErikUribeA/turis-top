@@ -25,7 +25,7 @@ TurisTop es una aplicación web desarrollada con tecnologías como Next.js para 
 ---
 
 ## 🗂️ Estructura del proyecto
-
+ ```
 turis-top/
 ├── 🗂️ ¡18n/ #Configuración general de idiomas
 ├── 🗂️ languaje/ #Diccionario de traducción
