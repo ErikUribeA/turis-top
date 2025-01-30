@@ -31,15 +31,15 @@ turis-top/
 ├── 🗂️ languaje/ #Diccionario de traducción
 ├── prisma/ # Configuración y modelos de Prisma
 ├── 🗂️public/ # Archivos estáticos 
-    ├── 🗂️Images/ #Imagenes de proyecto
+|    ├── 🗂️Images/ #Imagenes de proyecto
 ├── 🗂️src/ 
 |    ├── 🗂️app/ # Configuración de la aplicación
-            🗂️├──api/ # Endpoints de la API y lógica
-            🗂️├──assistant/ # Configuración y página de la asistente
-                ├── auth-provider.tsx/ # Configuración que envuelve la aplicación
-                ├── Home.module.scss/ # Estilos globales de scss
-                ├── layout/ # Llamado al provider e información de la página
-                ├── page.tsx/ # Información de la página principal
+|            🗂️├──api/ # Endpoints de la API y lógica
+|            🗂️├──assistant/ # Configuración y página de la asistente
+|                ├── auth-provider.tsx/ # Configuración que envuelve la aplicación
+|                ├── Home.module.scss/ # Estilos globales de scss
+|                ├── layout/ # Llamado al provider e información de la página
+|                ├── page.tsx/ # Información de la página principal
 |    ├── 🗂️components/ #Componentes reutilizables
 |    ├── 🗂️context/ #Configuración del tema 'light' | 'dark'
 |    ├── 🗂️lib/ # Conexión el login por medio de la cuenta de google
