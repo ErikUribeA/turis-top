@@ -50,7 +50,7 @@ turis-top/
 ├── docker-compose.yml # Configuración de Docker Compose
 ├── package.json # Dependencias del proyecto
 └── README.md # Presentación del proyecto
-
+ ```
 ---
 
 ## 👥 Participantes
