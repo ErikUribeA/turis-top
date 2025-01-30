@@ -101,3 +101,5 @@ http://localhost:3000 click para abrirlo en el navegador.
 
 ### ¡Listo para tener una experiencia única!🚀
 
+public/images/turis.png
+
