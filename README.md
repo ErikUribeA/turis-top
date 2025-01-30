@@ -20,7 +20,7 @@ TurisTop es una aplicación web desarrollada con tecnologías como Next.js para 
 - **Frontend**: [Next.js]
 - **Backend**: [Next.js API Routes]
 - **Base de datos**: [Prisma]+ [PostgreSQL]
-- **Containerización**: [Docker]
+- **Contenedor**: [Docker]
 
 ---
 
@@ -79,27 +79,43 @@ Sigue estos pasos para correr TurisTop en tu máquina local:
    ```bash
    git clone https://github.com/ErikUribeA/turis-top.git
    cd turis-top
+   ```
+   ```
 2. Instala las dependencias:
 
 -npm install
-
+   ```
+   ```
 3. Inicia la base de datos (con Docker):
 
 -docker-compose up -d
-
+   ```
+   ```
 4. Ejecuta las migraciones de Prisma:
 
--npx prisma migrate dev --name init
-
+-npx prisma migrate dev "tableAsk" 
+-npx prisma generate 
+   ```
+   ```
 5. Inicia el servidor de desarrollo:
 
 -npm run dev
-
+   ```
+   ```
 6. Una vez ejecutado el comando anterior en la consola aparece el siguiente puerto: 
 
 http://localhost:3000 click para abrirlo en el navegador.
 
+   ```
+
+   ```
+### 🚀Link directo a nuestra página:
+
+https://turis-top.vercel.app
+```
+```
+
 ### ¡Listo para tener una experiencia única!🚀
 
-public/images/turis.png
+![Mi Imagen](public/images/turis.png)
 
